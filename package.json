@@ -1,5 +1,5 @@
 {
-  "name": "node-ts-starter",
+  "name": "health-track",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -23,6 +23,7 @@
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.3",
     "nodemon": "^2.0.15",
+    "sqlite3": "^5.1.6",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.2"
   }
