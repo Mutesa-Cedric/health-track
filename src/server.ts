@@ -5,7 +5,6 @@ import bodyParser = require("body-parser");
 import cookieParser = require("cookie-parser");
 import patientsRouter from "./modules/patients/patientsRouter";
 import recordsRouter from "./modules/records/recordsRouter";
-import db from "./utils/db";
 
 const PORT = process.env.PORT || 8000;
 
@@ -16,6 +15,7 @@ app.use(cookieParser());
 
 // @ts-ignore   
 // app.use(rawBody)
+
 
 app.use((req, res, next) => {
 
@@ -31,6 +31,11 @@ app.use((req, res, next) => {
     console.log(req.originalUrl, "\t", req.method, "\t", req.url);
     next();
 });
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
 
 // router middlewares
 app.use("/patients", patientsRouter);
