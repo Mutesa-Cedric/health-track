@@ -3,11 +3,11 @@ import express = require("express");
 import cors = require("cors");
 import bodyParser = require("body-parser");
 import cookieParser = require("cookie-parser");
-import authRouter from "./modules/auth/authRouter";
 
-import userRouter from "./modules/user/userRouter";
 import { dbConnection } from "./utils/dbConnection";
-import isAuthenticated from "./middlewares/auth";
+import patientsRouter from "./modules/patients/patientsRouter";
+import recordsRouter from "./modules/records/recordsRouter";
+
 const PORT = process.env.PORT || 8000;
 
 const app = express();
@@ -43,8 +43,8 @@ app.use((req, res, next) => {
 });
 
 // router middlewares
-app.use("/auth", authRouter);
-app.use("/user", isAuthenticated, userRouter);
+app.use("/patients", patientsRouter);
+app.use("/records", recordsRouter);
 
 app.get("/", (req, res) => {
     res.send("Hello world");
