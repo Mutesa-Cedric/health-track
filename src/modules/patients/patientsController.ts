@@ -4,12 +4,13 @@ import { Request, Response } from "express";
 
 export const createPatient = async (req: Request, res: Response) => {
     try {
-        const { name, national_id } = req.body;
-        if (!name || !national_id) {
+        const { name, national_id, frequent_disease } = req.body;
+        if (!name || !national_id || !frequent_disease) {
             return res.status(400).json({
                 message: "Bad request", missingFields: {
                     name: !name,
-                    national_id: !national_id
+                    national_id: !national_id,
+                    frequent_disease: !frequent_disease
                 }
             });
         }
@@ -17,9 +18,9 @@ export const createPatient = async (req: Request, res: Response) => {
         const createdAt = new Date().toISOString();
         const updatedAt = createdAt;
         db.run(
-            `INSERT INTO patients (name, national_id, createdAt, updatedAt)
-            VALUES (?, ?, ?, ?)`,
-            [name, national_id, createdAt, updatedAt],
+            `INSERT INTO patients (name, national_id,frequent_disease, createdAt, updatedAt)
+            VALUES (?, ?, ?, ?, ?)`,
+            [name, national_id, frequent_disease, createdAt, updatedAt],
             function (err) {
                 if (err) {
                     console.log(err);
@@ -30,6 +31,7 @@ export const createPatient = async (req: Request, res: Response) => {
                 const patient: Patient = {
                     id,
                     name,
+                    frequent_disease,
                     national_id,
                     createdAt,
                     updatedAt
@@ -64,7 +66,7 @@ export const getAllPatients = async (req: Request, res: Response) => {
 export const updatePatient = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, national_id } = req.body;
+        const { name, national_id ,frequent_disease} = req.body;
         if (!name || !national_id) {
             return res.status(400).json({
                 message: "Bad request", missingFields: {
@@ -76,8 +78,8 @@ export const updatePatient = async (req: Request, res: Response) => {
 
         const updatedAt = new Date().toISOString();
         db.run(
-            `UPDATE patients SET name = ?, national_id = ?, updatedAt = ? WHERE id = ?`,
-            [name, national_id, updatedAt, id],
+            `UPDATE patients SET name = ?, national_id = ?,frequent_disease = ?, updatedAt = ? WHERE id = ?`,
+            [name, national_id,frequent_disease, updatedAt, id],
             function (err) {
                 if (err) {
                     console.log(err);
@@ -88,6 +90,7 @@ export const updatePatient = async (req: Request, res: Response) => {
                     id: parseInt(id),
                     name,
                     national_id,
+                    frequent_disease,
                     createdAt: "",
                     updatedAt
                 }
